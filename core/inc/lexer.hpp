@@ -1,65 +1,58 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
 
-struct VARIABLETYPE{
-      const char* VINT      = "int";
-      const char* VCHAR     = "char";
-      const char* VFLOAT    = "float";
-      const char* VLONG     = "long";
-      const char* VSHORT    = "short";
-      const char* VUINT8T   = "uint8_t";
-      const char* VUINT16T  = "uint16_t";
-      const char* VUINT32T  = "uint32_t";
-      const char* VUINT64T  = "uint64_t";
-      const char* VINT8T    = "int8_t";
-      const char* VINT16T   = "int16_t";
-      const char* VINT32T   = "int32_t";
-      const char* VINT64T   = "int64_t";
-      const char* VBOOL     = "bool";
-      // flags for var
-      const char* FCONST    = "const";
-      const char* FUNSIGNED = "unsigned";
-      const char* FSIGNED   = "signed";
+enum TokenKind {
+    TOK_IDENT,           
+    TOK_NUMBER,          
+    TOK_STRING,          
+
+    TOK_KW_INT, TOK_KW_CHAR, TOK_KW_FLOAT, TOK_KW_LONG, TOK_KW_SHORT,
+    TOK_KW_UINT8, TOK_KW_UINT16, TOK_KW_UINT32, TOK_KW_UINT64,
+    TOK_KW_INT8, TOK_KW_INT16, TOK_KW_INT32, TOK_KW_INT64, TOK_KW_BOOL,
+    TOK_KW_CONST, TOK_KW_UNSIGNED, TOK_KW_SIGNED,
+    TOK_KW_BIN, TOK_KW_VOID,
+
+    TOK_KW_PRINTLN, TOK_KW_PRINT,
+    TOK_KW_INCLUDE, TOK_KW_EXTERN, TOK_KW_DEFINE,
+    TOK_KW_INPUT,
+    TOK_KW_FN, TOK_KW_CL,
+    TOK_KW_FOPEN, TOK_KW_FCLOSE, TOK_KW_FWRITE, TOK_KW_FREAD, TOK_KW_FCREATE,
+    TOK_KW_SYSCOM, TOK_KW_LEVEL,
+    TOK_KW_WHILE, TOK_KW_FOR, TOK_KW_IF, TOK_KW_ELSE,
+    TOK_KW_RETURN, TOK_KW_VAR, TOK_KW_EXPORT,
+    TOK_KW_IN, TOK_KW_RANGE, TOK_KW_LEN,
+
+    TOK_LPAREN, TOK_RPAREN,      
+    TOK_LBRACE, TOK_RBRACE,      
+    TOK_LBRACKET, TOK_RBRACKET,  
+    TOK_LANGLE, TOK_RANGLE,      
+    TOK_COMMA, TOK_HASH, TOK_DOT,
+    TOK_AMP, TOK_PERCENT,        
+    TOK_DOLLAR, TOK_AT,         
+
+    // --- операторы ---
+    TOK_ARROW,           // ->
+    TOK_ASSIGN,          // =
+    TOK_PLUS, TOK_MINUS, TOK_STAR, TOK_SLASH,
+    TOK_INC, TOK_DEC,    // ++ --
+    TOK_EQ, TOK_NE,      // == !=
+    TOK_LE, TOK_GE,      // <= >=
+    TOK_NOT,             // !
+    TOK_ANDAND, TOK_OROR,// && ||
+
+    TOK_SEMICOLON,       
+    TOK_EOF,             
+    TOK_UNKNOWN          
 };
 
-struct SYNTAXCOMAND{
-      const char* PRINTLN   = "println";
-      const char* PRINT     = "print";
-      const char* INCLUDE   = "include";
-      const char* EXTERN    = "extern";
-      const char* DEFINE    = "define";
-      const char* INPUT     = "input";
-      const char* FN        = "fn";
-      const char* CL        = "cl";
-      const char* FOPEN     = "fopen";
-      const char* FCLOSE    = "fclose";
-      const char* FWRITE    = "fwrite";
-      const char* FREAD     = "fread";
-      const char* FCREATE   = "fcreate";
-      const char* SYSCOM    = "syscom";
-      const char* LEVEL     = "level";
-      const char* WHILE     = "while";
-      const char* FOR       = "for";
-      const char* IF        = "if";
-      const char* ELSE      = "else";
+struct Token {
+    TokenKind kind;
+    string    value;   
+    int       line;    
+    int       col;
 };
 
-struct SEPSING{
-      const char SH     = '(';
-      const char EH     = ')';
-      const char SA     = '[';
-      const char EA     = ']';
-      const char SP     = '&';
-      const char PE     = '%';
-      const char DO     = '$';
-      const char SO     = '@';
-      const char VO     = ' ';
-      const char END    = ';';
-      const char* NL    = "//";
-};
-
-void lexer();
-int tokenize();
-string ReadLineFile(string filename);
+vector<Token> lexer(string filename);
