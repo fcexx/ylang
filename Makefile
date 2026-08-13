@@ -3,8 +3,8 @@ CXX := g++
 
 TARGET := ylang
 
-CFLAGS   := -Wall -Wextra -O2
-CXXFLAGS := -Wall -Wextra -O2
+CFLAGS   := -Wall -Wextra -O2 -Icore/inc
+CXXFLAGS := -Wall -Wextra -O2 -Icore/inc
 
 C_SOURCES := $(shell find . -type f -name '*.c')
 CPP_SOURCES := $(shell find . -type f -name '*.cpp')

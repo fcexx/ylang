@@ -3,8 +3,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <lexer.hpp>
+#include <iostream>
 
-int parse_flag(char *flag) {
+using namespace std;
+
+int parse_flag(string flag) {
 	return 8;
 }
 
@@ -17,14 +21,19 @@ int main(int argc, const char ** argv) {
 			struct stat file;
 
 			if (argv[i][0] == '-') {
-				char *flag = argv[i];
+				string flag = argv[i];
 				if (parse_flag(flag) != 0) {
 					fprintf(stderr, "error: unknown flag %s\n", flag);
 					exit(2);
 				}
+				continue;
 			}
 			if (stat(argv[i], &file) == 0) {
-				printf("yes file\n");
+				vector<Token> tok = lexer(argv[i]);
+				for (const Token& token : tok) {
+					cout << token.value << '\n';
+				}
+
 			} else {
 				printf("no file\n");
 			}

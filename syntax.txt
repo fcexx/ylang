@@ -1,11 +1,12 @@
 #export <CLib> // возможность запускать функции из си прямо в коде. как export в ассемблере когда мы из stage2 boot передаем аргумент запуска ядра
 
+@lvl:0
 fn -> bin MadeChar(int addr, char symbol){ // мы используем взаместо стандартной типизации (void, int,char ) bin, новый формат для бинарных функций
-        mov ax, var(addr)     // установить текстовый режим 80x25 (очищает экран)
+        mov ax, &addr     // установить текстовый режим 80x25 (очищает экран)
         int 0x10
 
-        mov ah, 0x0E        // функция вывода символа в телетайп-режиме
-        mov al, var(symbol)        // символ для вывода
+        mov ah, 0x0E       // функция вывода символа в телетайп-режиме
+        mov (al, var(symbol) )       // символ для вывода
         int 0x10            // вызов BIOS
 
 }
@@ -14,14 +15,18 @@ fn -> bin StopProccesor(){
         cli
         hlt
 }
+@endlvl
 
+@lvl:1
 fn -> void main(){
         int i = 0;
-        const char* helloworld = "hello world";
+        const char* helloworld = "hello world"
         for (i in range(len(helloworld)); i++){ // конечно нам до такого долго идти но это как цель на будущее.
-                MadeChar(0x0003,helloworld[i]);
+                
         }
-        StopProccesor();
-        return 0;
+        mem<0xb8000> = { 0x07, 'h', 0x07, 'i', 0 } 
+        StopProccesor()
+        return 0
        
 }
+@endlvl

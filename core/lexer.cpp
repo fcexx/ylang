@@ -7,28 +7,21 @@
 #include <sstream>
 #include <cctype>
 #include <unordered_map>
-#include <inc/lexer.hpp>
+#include <lexer.hpp>
 
 const unordered_map<string, TokenKind> KEYWORDS = {
-        {"int", TOK_KW_INT}, {"char", TOK_KW_CHAR}, {"float", TOK_KW_FLOAT},
+        {"int", TOK_KW_INT}, {"char", TOK_KW_CHAR}, 
+        {"float", TOK_KW_FLOAT}, {"bool", TOK_KW_BOOL},
+        {"void", TOK_KW_VOID},
+
         {"long", TOK_KW_LONG}, {"short", TOK_KW_SHORT},
-        {"uint8_t", TOK_KW_UINT8}, {"uint16_t", TOK_KW_UINT16},
-        {"uint32_t", TOK_KW_UINT32}, {"uint64_t", TOK_KW_UINT64},
-        {"int8_t", TOK_KW_INT8}, {"int16_t", TOK_KW_INT16},
-        {"int32_t", TOK_KW_INT32}, {"int64_t", TOK_KW_INT64},
-        {"bool", TOK_KW_BOOL},
         {"const", TOK_KW_CONST}, {"unsigned", TOK_KW_UNSIGNED},
         {"signed", TOK_KW_SIGNED},
-        {"bin", TOK_KW_BIN}, {"void", TOK_KW_VOID},
-        {"println", TOK_KW_PRINTLN}, {"print", TOK_KW_PRINT},
+        
         {"include", TOK_KW_INCLUDE}, {"extern", TOK_KW_EXTERN},
         {"define", TOK_KW_DEFINE},
-        {"input", TOK_KW_INPUT},
         {"fn", TOK_KW_FN}, {"cl", TOK_KW_CL},
-        {"fopen", TOK_KW_FOPEN}, {"fclose", TOK_KW_FCLOSE},
-        {"fwrite", TOK_KW_FWRITE}, {"fread", TOK_KW_FREAD},
-        {"fcreate", TOK_KW_FCREATE},
-        {"syscom", TOK_KW_SYSCOM}, {"level", TOK_KW_LEVEL},
+        {"level", TOK_KW_LEVEL},
         {"while", TOK_KW_WHILE}, {"for", TOK_KW_FOR},
         {"if", TOK_KW_IF}, {"else", TOK_KW_ELSE},
         {"return", TOK_KW_RETURN}, {"var", TOK_KW_VAR},
@@ -39,7 +32,7 @@ const unordered_map<string, TokenKind> KEYWORDS = {
 vector<Token> lexer(string filename) {
         ifstream file(filename);
         if (!file) {
-                cerr << "Err: cannot open file: " << filename << endl;
+                cerr << "err: cannot open file: " << filename << endl;
                 return vector<Token>();
         }
 
